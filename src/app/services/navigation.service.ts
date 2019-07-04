@@ -25,6 +25,10 @@ export class NavigationService {
         return this.router.navigate(['/edit', id]);
     }
 
+    edit2(provider: string, id: string) {
+      return this.router.navigate([`/myServiceProviders/${provider}/dashboard/${id}/edit`]);
+    }
+
     search(any: any) {
         return this.router.navigate(['/search', any]);
     }
