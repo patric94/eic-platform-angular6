@@ -1,6 +1,6 @@
 import {IndicatorsPage, MeasurementsPage} from '../../../domain/indicators';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Provider, RichService, Vocabulary} from '../../../domain/eic-model';
 import {AuthenticationService} from '../../../services/authentication.service';
@@ -64,6 +64,7 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
 
   constructor(public route: ActivatedRoute,
               public router: NavigationService,
+              public betterRouter: Router,
               public resourceService: ResourceService,
               public authenticationService: AuthenticationService,
               public userService: UserService,

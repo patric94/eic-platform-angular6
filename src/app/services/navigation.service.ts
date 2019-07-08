@@ -10,7 +10,8 @@ export class NavigationService {
 
     private breadcrumbs_: Subject<any> = new Subject<any>();
 
-    constructor(public router: Router) {
+    constructor(public router: Router,
+                public route: ActivatedRoute) {
     }
 
     service(id: string) {
@@ -25,8 +26,10 @@ export class NavigationService {
         return this.router.navigate(['/edit', id]);
     }
 
-    edit2(provider: string, id: string) {
-      return this.router.navigate([`/myServiceProviders/${provider}/dashboard/${id}/edit`]);
+    edit2() {
+      console.log(this.route);
+      console.log(this.route);
+      return this.router.navigate(['../edit'], {relativeTo: this.route});
     }
 
     search(any: any) {

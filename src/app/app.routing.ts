@@ -347,10 +347,18 @@ const appRoutes: Routes = [
     },
     children: [
       {
-        path: 'service/:id',
+        path: ':id/service',
         component: ServiceLandingPageComponent,
         data: {
           breadcrumb: 'Service'
+        }
+      },
+      {
+        path: ':id/edit',
+        component: ServiceEditComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: 'Edit'
         }
       },
       {
@@ -395,7 +403,12 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(
+      appRoutes,
+      {
+        enableTracing: false // for debug -> true
+      }
+    )
   ],
   declarations: [],
   exports: [RouterModule]
