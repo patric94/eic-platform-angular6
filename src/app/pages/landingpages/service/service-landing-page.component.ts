@@ -13,6 +13,7 @@ import {SearchResults} from '../../../domain/search-results';
 import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {ValuesPipe} from '../../../shared/pipes/getValues.pipe';
+import {MatomoTracker} from 'ngx-matomo';
 
 declare var UIkit: any;
 
@@ -69,11 +70,15 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
               public authenticationService: AuthenticationService,
               public userService: UserService,
               private fb: FormBuilder,
-              private providerService: ServiceProviderService) {
+              private providerService: ServiceProviderService,
+              private matomoTracker: MatomoTracker) {
   }
 
   ngOnInit() {
     this.canEditService = false;
+
+    this.matomoTracker.setUserId('UserId');
+    this.matomoTracker.setDocumentTitle('ngx-Matomo Test');
 
     if (this.authenticationService.isLoggedIn()) {
       this.sub = this.route.params.subscribe(params => {

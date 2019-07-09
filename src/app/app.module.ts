@@ -48,6 +48,7 @@ import {CKEditorModule} from 'ng2-ckeditor';
 import {ServiceEditComponent} from './pages/eInfraServices/service-edit.component';
 import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
+import {MatomoModule} from 'ngx-matomo';
 
 
 declare var require: any;
@@ -104,6 +105,7 @@ export function highchartsFactory() {
   ],
   imports: [
     BrowserModule,
+    MatomoModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

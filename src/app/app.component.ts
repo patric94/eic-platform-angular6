@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {AuthenticationService} from './services/authentication.service';
+import {MatomoInjector} from 'ngx-matomo';
 
 
 @Component({
@@ -13,7 +14,12 @@ export class AppComponent implements OnInit {
 
   breadcrumbs: string[] = [];
 
-  constructor(public router: Router, public oauthService: AuthenticationService) {}
+  constructor(public router: Router,
+              public oauthService: AuthenticationService,
+              private matomoInjector: MatomoInjector
+  ) {
+    this.matomoInjector.init('//dl105.madgik.di.uoa.gr/matomo/', 2);
+  }
 
   ngOnInit() {
     this.oauthService.getUserInfo();
