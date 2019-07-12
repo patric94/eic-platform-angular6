@@ -14,6 +14,7 @@ import {flatMap} from 'rxjs/operators';
 import {zip} from 'rxjs/internal/observable/zip';
 import {ValuesPipe} from '../../../shared/pipes/getValues.pipe';
 import {MatomoTracker} from 'ngx-matomo';
+import {hasOwnProperty} from 'tslint/lib/utils';
 
 declare var UIkit: any;
 
@@ -77,9 +78,6 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.canEditService = false;
 
-    this.matomoTracker.setUserId('UserId');
-    this.matomoTracker.setDocumentTitle('ngx-Matomo Test');
-
     if (this.authenticationService.isLoggedIn()) {
       this.sub = this.route.params.subscribe(params => {
         zip(
@@ -106,6 +104,9 @@ export class ServiceLandingPageComponent implements OnInit, OnDestroy {
           this.newMeasurementForm.get('time').disable();
           this.newMeasurementForm.get('rangeValue').disable();
           this.newMeasurementForm.get('serviceId').setValue(params['id']);
+          // track page view with custom url for better grouping
+          this.matomoTracker.setCustomUrl('/service/' + params['id']);
+          this.matomoTracker.trackPageView();
 
           /* check if the current user can edit the service */
           this.canEditService = this.myProviders.some(p => this.service.providers.some(x => x === p.id));
