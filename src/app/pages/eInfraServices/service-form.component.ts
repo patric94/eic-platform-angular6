@@ -477,39 +477,6 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  postMeasurement(serviceId: string) {
-    // if (this.measurements.length > 0) {
-      for (let i = 0; i < this.measurements.length; i++) {
-        // console.log(i + ' = ' + this.measurements.controls[i].untouched);
-        if (this.measurements.controls[i].untouched && this.measurements.controls[i].get('indicatorId').value === '') {
-          this.removeFroMeasurements(i);
-          continue;
-        }
-        this.measurements.controls[i].get('serviceId').setValue(serviceId);
-      }
-      // console.log(this.measurementForm.controls);
-      if (this.measurementForm.valid) {
-        this.resourceService.postMeasurementUpdateAll(serviceId, this.measurements.value)
-          .subscribe(
-            res => this.router.service(serviceId),
-            error => { // on measurement post error
-              window.scrollTo(0, 0);
-              this.errorMessage = error.error.error;
-              this.serviceForm.get('id').setValue(serviceId);
-              this.editMode = true;
-            },
-            () => {}
-          );
-      } else {
-        this.validateMeasurements();
-        window.scrollTo(0, 0);
-        this.errorMessage = 'Please fill all underlined fields at Indicator section';
-      }
-    // } else {
-    //   this.router.service(serviceId);
-    // }
-  }
-
   /** INDICATORS **/
 
   checkUrl(url: string) {
