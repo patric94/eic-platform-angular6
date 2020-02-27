@@ -15,7 +15,8 @@ import {FunderService} from '../../services/funder.service';
 
 @Component({
   selector: 'app-service-form',
-  templateUrl: './service-form.component.html'
+  templateUrl: './service-form.component.html',
+  styleUrls: ['../serviceprovider/service-provider-form.component.css']
 })
 export class ServiceFormComponent implements OnInit {
   serviceName = 'eInfraCentral';
@@ -29,6 +30,7 @@ export class ServiceFormComponent implements OnInit {
   errorMessage = '';
   successMessage: string = null;
   weights: string[] = [];
+  tabs: boolean[] = [false, false, false, false, false, false, false, false, false];
   fb: FormBuilder = this.injector.get(FormBuilder);
 
   measurementForm: FormGroup;
@@ -225,7 +227,7 @@ export class ServiceFormComponent implements OnInit {
   userService: UserService = this.injector.get(UserService);
 
   public fundersVocabulary: FundersPage = null;
-  public targetUsers: Vocabulary[] = null;
+  public targetUsersVocabulary: Vocabulary[] = null;
   public accessTypesVocabulary: Vocabulary[] = null;
   public accessModesVocabulary: Vocabulary[] = null;
   public orderTypeVocabulary: Vocabulary[] = null;
@@ -313,12 +315,14 @@ export class ServiceFormComponent implements OnInit {
       );
     } else {
       window.scrollTo(0, 0);
+
       this.categoryArray.enable();
       this.scientificDomainArray.enable();
       this.setAsTouched();
+      this.markTabs();
       this.serviceForm.markAsDirty();
       this.serviceForm.updateValueAndValidity();
-      this.validateMeasurements();
+      this.tabs[8] = this.validateMeasurements();
       if (!this.serviceForm.valid) {
         this.errorMessage = 'Please fill in all required fields (marked with an asterisk), and fix the data format in fields underlined with a red colour.';
         if (!this.serviceForm.controls['description'].valid) {
@@ -342,7 +346,7 @@ export class ServiceFormComponent implements OnInit {
         this.fundersVocabulary = <FundersPage>suc[3];
         this.getIndicatorIds();
         // this.getLocations();
-        this.targetUsers = this.vocabularies[VocabularyType.TARGET_USERS];
+        this.targetUsersVocabulary = this.vocabularies[VocabularyType.TARGET_USERS];
         this.accessTypesVocabulary = this.vocabularies[VocabularyType.ACCESS_TYPE];
         this.accessModesVocabulary = this.vocabularies[VocabularyType.ACCESS_MODE];
         this.orderTypeVocabulary = this.vocabularies[VocabularyType.ORDER_TYPE];
@@ -430,6 +434,92 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
+  transformInput(input) {
+    return Object.keys(input).reduce((accumulator, value) => {
+      accumulator[value] = input[value][0].providers[0] + ' - ' + input[value][0].name;
+      return accumulator;
+    }, {});
+  }
+
+  /** check form fields and tabs validity--> **/
+  checkFormValidity(name: string): boolean {
+    return (!this.serviceForm.get(name).valid && this.serviceForm.get(name).dirty);
+  }
+
+  checkFormArrayValidity(name: string, position: number, groupName?: string, position2?: number, contactField?: string): boolean {
+    if (contactField) {
+      return this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).valid
+              && this.getFieldAsFormArray(name).controls[position].get(groupName).get([position2]).get(contactField).dirty;
+    }
+    if (groupName) {
+      return !this.getFieldAsFormArray(name).get([position]).get(groupName).valid && this.getFieldAsFormArray(name).get([position]).get(groupName).dirty;
+    }
+    return !this.getFieldAsFormArray(name).get([position]).valid && this.getFieldAsFormArray(name).get([position]).dirty;
+  }
+
+  checkEveryArrayFieldValidity(name: string, groupName?: string, contactField?: string): boolean {
+    for (let i = 0; i < this.getFieldAsFormArray(name).length; i++) {
+      if (groupName && contactField) {
+        for (let j = 0; j < this.getFieldAsFormArray(name).controls[i].get(groupName)[length]; j++) {
+          console.log(j);
+          if (this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).valid
+            && this.getFieldAsFormArray(name).controls[i].get(groupName).get([j]).get(contactField).dirty) {
+            return true;
+          }
+        }
+      }
+      if (groupName) {
+        if (!this.getFieldAsFormArray(name).get([i]).get(groupName).valid && this.getFieldAsFormArray(name).get([i]).get(groupName).dirty) {
+          return true;
+        }
+      } else if (!this.getFieldAsFormArray(name).get([i]).valid && this.getFieldAsFormArray(name).get([i]).dirty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  markTabs() {
+    this.tabs[0] = (this.checkFormValidity('name') || this.checkFormValidity('url') || this.checkFormValidity('url')
+      || this.checkFormValidity('logo') || this.checkEveryArrayFieldValidity('multimediaUrls') || this.checkFormValidity('tagline')
+      || this.checkFormValidity('userValue') || this.checkEveryArrayFieldValidity('userBaseList')
+      || this.checkEveryArrayFieldValidity('useCases') || this.checkFormValidity('endpoint')
+      || this.checkEveryArrayFieldValidity('options', 'name') || this.checkEveryArrayFieldValidity('options', 'url')
+      || this.checkEveryArrayFieldValidity('options', 'description') || this.checkEveryArrayFieldValidity('options', 'logo')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'lastName')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'email')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'tel')
+      || this.checkEveryArrayFieldValidity('options', 'contacts', 'position'));
+    this.tabs[1] = (this.checkEveryArrayFieldValidity('providers') || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificDomain')
+      || this.checkEveryArrayFieldValidity('scientificCategorization', 'scientificSubDomain')
+      || this.checkEveryArrayFieldValidity('categorize', 'category') || this.checkEveryArrayFieldValidity('categorize', 'subcategory')
+      || this.checkEveryArrayFieldValidity('targetUsers') || this.checkEveryArrayFieldValidity('languages')
+      || this.checkEveryArrayFieldValidity('places') || this.checkEveryArrayFieldValidity('accessTypes')
+      || this.checkEveryArrayFieldValidity('accessModes') || this.checkEveryArrayFieldValidity('funders')
+      || this.checkEveryArrayFieldValidity('tags'));
+    this.tabs[2] = (this.checkFormValidity('phase') || this.checkFormValidity('trl') || this.checkFormValidity('version')
+      || this.checkFormValidity('lastUpdate') || this.checkFormValidity('changeLog')
+      || this.checkEveryArrayFieldValidity('certifications') || this.checkEveryArrayFieldValidity('certifications'));
+    this.tabs[3] = (this.checkFormValidity('orderType') || this.checkFormValidity('order') || this.checkFormValidity('sla')
+      || this.checkFormValidity('certifications') || this.checkFormValidity('privacyPolicy') || this.checkFormValidity('accessPolicy')
+      || this.checkFormValidity('paymentModel') || this.checkFormValidity('pricing'));
+    this.tabs[4] = (this.checkFormValidity('userManual') || this.checkFormValidity('adminManual') || this.checkFormValidity('training')
+      || this.checkFormValidity('helpdesk') || this.checkFormValidity('monitoring') || this.checkFormValidity('maintenance'));
+    this.tabs[5] = (this.checkEveryArrayFieldValidity('contacts', 'firstName')
+      || this.checkEveryArrayFieldValidity('contacts', 'lastName') || this.checkEveryArrayFieldValidity('contacts', 'email')
+      || this.checkEveryArrayFieldValidity('contacts', 'tel') || this.checkEveryArrayFieldValidity('contacts', 'position'));
+    this.tabs[6] = (this.checkEveryArrayFieldValidity('requiredServices')
+      || this.checkEveryArrayFieldValidity('relatedServices') || this.checkEveryArrayFieldValidity('relatedPlatforms'));
+    this.tabs[7] = (this.checkFormValidity('aggregatedServices') || this.checkFormValidity('datasets')
+      || this.checkFormValidity('applications') || this.checkFormValidity('software')
+      || this.checkFormValidity('publications') || this.checkFormValidity('otherProducts'));
+
+    // console.log(this.tabs);
+  }
+  /** <--check form fields and tabs validity **/
+
+  /** manage form arrays--> **/
   getFieldAsFormArray(field: string) {
     return this.serviceForm.get(field) as FormArray;
   }
@@ -451,13 +541,7 @@ export class ServiceFormComponent implements OnInit {
   remove(field: string, i: number) {
     this.getFieldAsFormArray(field).removeAt(i);
   }
-
-  transformInput(input) {
-    return Object.keys(input).reduce((accumulator, value) => {
-      accumulator[value] = input[value][0].providers[0] + ' - ' + input[value][0].name;
-      return accumulator;
-    }, {});
-  }
+  /** <--manage form arrays **/
 
   /** Categorization & Scientific Domain--> **/
 
@@ -682,6 +766,58 @@ export class ServiceFormComponent implements OnInit {
     );
   }
 
+  handleChange(event, index: number) {
+    if (event.target.value === 'false') {
+      this.measurements.controls[index].get('rangeValue').disable();
+      this.measurements.controls[index].get('rangeValue.fromValue').reset();
+      this.measurements.controls[index].get('rangeValue.fromValue').disable();
+      this.measurements.controls[index].get('rangeValue.toValue').reset();
+      this.measurements.controls[index].get('rangeValue.toValue').disable();
+      this.measurements.controls[index].get('value').enable();
+      // this.measurements.controls[index].get('valueIsRange').setValue('false');
+    } else {
+      this.measurements.controls[index].get('rangeValue').enable();
+      this.measurements.controls[index].get('value').disable();
+      this.measurements.controls[index].get('value').reset();
+      // this.measurements.controls[index].get('valueIsRange').setValue('true');
+    }
+  }
+
+  validateMeasurements(): boolean {
+    // console.log(this.measurements.controls.length);
+    let error = false;
+    for (let i = 0; i < this.measurements.controls.length; i++) {
+      // console.log(this.measurements.controls[i]);
+      for (const j in this.measurements.controls[i].value) {
+        if (this.measurements.controls[i].value.hasOwnProperty(j)) {
+          // console.log(this.measurements.controls[i].get(j).value);
+          if (this.measurements.controls[i].get(j).value.constructor !== Array) {
+            this.measurements.controls[i].get(j).markAsDirty();
+            this.measurements.controls[i].get(j).updateValueAndValidity();
+            error = error || (this.measurements.controls[i].get(j).valid && this.measurements.controls[i].get(j).dirty);
+          }
+        }
+      }
+      for (const j in this.locations(i).controls) {
+        this.locations(i).controls[j].markAsDirty();
+        this.locations(i).controls[j].updateValueAndValidity();
+        error = error || (this.locations(i).controls[j].valid && this.locations(i).controls[j].dirty);
+      }
+      if (this.measurements.controls[i].get('valueIsRange').value) {
+        this.measurements.controls[i].get('rangeValue.fromValue').markAsDirty();
+        this.measurements.controls[i].get('rangeValue.fromValue').updateValueAndValidity();
+        error = error || (this.measurements.controls[i].get('rangeValue.fromValue').valid
+                          && this.measurements.controls[i].get('rangeValue.fromValue').dirty);
+        this.measurements.controls[i].get('rangeValue.toValue').markAsDirty();
+        this.measurements.controls[i].get('rangeValue.toValue').updateValueAndValidity();
+        error = error || (this.measurements.controls[i].get('rangeValue.toValue').valid
+          && this.measurements.controls[i].get('rangeValue.toValue').dirty);
+      }
+    }
+    return error;
+  }
+  /** <-- INDICATORS **/
+
   getVocabularyById(vocabularies: Vocabulary[], id: string) {
     return vocabularies.find(entry => entry.id === id);
   }
@@ -704,48 +840,8 @@ export class ServiceFormComponent implements OnInit {
     });
   }
 
-  handleChange(event, index: number) {
-    if (event.target.value === 'false') {
-      this.measurements.controls[index].get('rangeValue').disable();
-      this.measurements.controls[index].get('rangeValue.fromValue').reset();
-      this.measurements.controls[index].get('rangeValue.fromValue').disable();
-      this.measurements.controls[index].get('rangeValue.toValue').reset();
-      this.measurements.controls[index].get('rangeValue.toValue').disable();
-      this.measurements.controls[index].get('value').enable();
-      // this.measurements.controls[index].get('valueIsRange').setValue('false');
-    } else {
-      this.measurements.controls[index].get('rangeValue').enable();
-      this.measurements.controls[index].get('value').disable();
-      this.measurements.controls[index].get('value').reset();
-      // this.measurements.controls[index].get('valueIsRange').setValue('true');
-    }
+  downloadServiceFormPDF() {
+    window.open('../../../assets/files/serviceForm.pdf', '_blank');
   }
-
-  validateMeasurements() {
-    // console.log(this.measurements.controls.length);
-    for (let i = 0; i < this.measurements.controls.length; i++) {
-      // console.log(this.measurements.controls[i]);
-      for (const j in this.measurements.controls[i].value) {
-        if (this.measurements.controls[i].value.hasOwnProperty(j)) {
-          // console.log(this.measurements.controls[i].get(j).value);
-          if (this.measurements.controls[i].get(j).value.constructor !== Array) {
-            this.measurements.controls[i].get(j).markAsDirty();
-            this.measurements.controls[i].get(j).updateValueAndValidity();
-          }
-        }
-      }
-      for (const j in this.locations(i).controls) {
-        this.locations(i).controls[j].markAsDirty();
-        this.locations(i).controls[j].updateValueAndValidity();
-      }
-      if (this.measurements.controls[i].get('valueIsRange').value) {
-        this.measurements.controls[i].get('rangeValue.fromValue').markAsDirty();
-        this.measurements.controls[i].get('rangeValue.fromValue').updateValueAndValidity();
-        this.measurements.controls[i].get('rangeValue.toValue').markAsDirty();
-        this.measurements.controls[i].get('rangeValue.toValue').updateValueAndValidity();
-      }
-    }
-  }
-  /** <-- INDICATORS **/
 
 }
