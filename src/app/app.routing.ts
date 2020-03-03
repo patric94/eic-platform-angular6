@@ -21,8 +21,247 @@ import {MeasurementsComponent} from './pages/indicators/measurements.component';
 import {IndicatorFromComponent} from './pages/indicators/indicator-from.component';
 import {ForbiddenPageComponent} from './shared/forbidden-page/forbidden-page.component';
 import {NotFoundPageComponent} from './shared/not-found-page/not-found-page.component';
+import {StatsComponent} from './pages/user/dashboard/providerStats/stats.component';
+import {ServicesComponent} from './pages/user/dashboard/services/services.component';
+import {MessagesComponent} from './pages/user/dashboard/messages/messages.component';
+import {DashboardComponent} from './pages/user/dashboard/dashboard.component';
+import {ServiceDashboardComponent} from './pages/user/dashboard/service-dashboard.component';
+import {FAQsComponent} from './pages/support/faqs/faqs.component';
+import {DevelopersComponent} from './pages/support/developers/developers.component';
+import {OpenAPIComponent} from './pages/support/openapi/openapi.component';
 
 const appRoutes: Routes = [
+
+  /** Routing with children **/
+
+  /** Provider **/
+  {
+    path: 'myServiceProviders',
+    // component: MyServiceProvidersComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'My Service Providers'
+    },
+    children: [
+      {
+        path: 'newServiceProvider',
+        component: ServiceProviderFormComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: 'New Service Provider'
+        }
+      },
+      {
+        path: 'updateServiceProvider/:id',
+        component: UpdateServiceProviderComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: 'Update Service Provider'
+        }
+      },
+      {
+        path: ':provider/dashboard',
+        // component: DashboardComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: 'Provider dashboard'
+        },
+        children: [
+          {
+            path: 'upload',
+            component: ServiceUploadComponent,
+            canActivate: [CanActivateViaAuthGuard],
+            data: {
+              breadcrumb: 'Upload'
+            }
+          },
+          {
+            path: '',
+            component: DashboardComponent,
+            canActivate: [CanActivateViaAuthGuard],
+            data: {
+              breadcrumb: ''
+            },
+            children : [
+              {path: 'stats', component: StatsComponent},
+              {path: 'activeServices', component: ServicesComponent},
+              {path: 'pendingServices', component: ServicesComponent},
+              {path: 'messages', component: MessagesComponent},
+              {path: '', redirectTo: 'stats', pathMatch: 'full'}
+            ]
+          },
+          {
+            path: ':id',
+            // component: ServiceDashboardComponent,
+            canActivate: [CanActivateViaAuthGuard],
+            data: {
+              breadcrumb: 'Service dashboard'
+            },
+            children: [
+              {
+                path: 'service',
+                component: ServiceLandingPageComponent,
+                data: {
+                  breadcrumb: 'Service'
+                }
+              },
+              {
+                path: 'edit',
+                component: ServiceEditComponent,
+                canActivate: [CanActivateViaAuthGuard],
+                data: {
+                  breadcrumb: 'Edit'
+                }
+              },
+              {
+                path: '',
+                component: ServiceDashboardComponent,
+                canActivate: [CanActivateViaAuthGuard],
+                data: {
+                  breadcrumb: ''
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: '',
+        component: MyServiceProvidersComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: ''
+        }
+      }
+    ]
+  },
+  /** Provider **/
+
+  /** Admin **/
+  {
+    path: 'serviceProvidersList',
+    // component: ServiceProvidersListComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Service Providers'
+    },
+    children: [
+      {
+        path: 'serviceProviderInfo/:id',
+        component: ServiceProviderInfoComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: 'Service Provider Info'
+        }
+      },
+      {
+        path: '',
+        component: ServiceProvidersListComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: ''
+        }
+      },
+    ]
+  },
+  /** Admin **/
+
+  /** Developers **/
+  {
+    path: 'developers',
+    // component: DevelopersComponent,
+    data: {
+      breadcrumb: 'Developers'
+    },
+    children: [
+      {
+        path: 'openapi',
+        component: OpenAPIComponent,
+        data: {
+          breadcrumb: 'Open API'
+        }
+      },
+      {
+        path: '',
+        component: DevelopersComponent,
+        data: {
+          breadcrumb: ''
+        }
+      }
+    ]
+  },
+  /** Developers **/
+
+  /** FAQ **/
+  {
+    path: 'support/faqs',
+    component: FAQsComponent,
+    data: {
+      breadcrumb: 'FAQs'
+    }
+  },
+  /** FAQ **/
+
+  /** Browse **/
+  {
+    path: 'browseCategories',
+    // component: BrowseCategoriesComponent,
+    data: {
+      breadcrumb: 'Browse'
+    },
+    children: [
+      {
+        path: ':id/service',
+        component: ServiceLandingPageComponent,
+        data: {
+          breadcrumb: 'Service'
+        }
+      },
+      {
+        path: ':id/edit',
+        component: ServiceEditComponent,
+        canActivate: [CanActivateViaAuthGuard],
+        data: {
+          breadcrumb: 'Edit'
+        }
+      },
+      {
+        path: '',
+        component: BrowseCategoriesComponent,
+        data: {
+          breadcrumb: ''
+        }
+      }
+    ]
+  },
+  /** Browse **/
+
+  /** Search **/
+  {
+    path: 'search',
+    // component: SearchComponent,
+    data: {
+      breadcrumb: 'Search'
+    },
+    children: [
+      {
+        path: 'service/:id',
+        component: ServiceLandingPageComponent,
+        data: {
+          breadcrumb: 'Service'
+        }
+      },
+      {
+        path: '',
+        component: SearchComponent,
+        data: {
+          breadcrumb: ''
+        }
+      }
+    ]
+  },
+  /** Search **/
+
   {
     path: '',
     redirectTo: '/home',
@@ -205,14 +444,14 @@ const appRoutes: Routes = [
       breadcrumb: 'Not Found'
     }
   },
-  {
-    path: '**',
-    redirectTo: 'notFound',
-    pathMatch: 'full',
-    data: {
-      breadcrumb: 'Not Found'
-    }
-  }
+  // {
+  //   path: '**',
+  //   redirectTo: 'notFound',
+  //   pathMatch: 'full',
+  //   data: {
+  //     breadcrumb: 'Not Found'
+  //   }
+  // }
 ];
 
 @NgModule({

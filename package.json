@@ -38,6 +38,7 @@
     "moment": "^2.24.0",
     "ng2-ckeditor": "1.2.1",
     "ngx-treeview": "^6.0.2",
+    "ngx-matomo": "^0.1.4",
     "rxjs": "~6.2.0",
     "uikit": "^3.0.3",
     "zone.js": "~0.8.26"
