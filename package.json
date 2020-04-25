@@ -7,11 +7,13 @@
     "eosc": "ng serve --project EOSC --proxy-config proxy.conf.json",
     "aire": "ng serve --project openaire-service-catalogue --proxy-config proxy.conf.json",
     "catris": "ng serve --project catris --proxy-config proxy.conf.json",
+    "neanias": "ng serve --project neanias --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "build:prod:eosc": "ng build --prod --project EOSC",
     "build:prod:aire": "ng build --prod --project openaire-service-catalogue",
     "build:prod:catris": "ng build --prod --project catris",
+    "build:prod:neanias": "ng build --prod --project neanias",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
