@@ -1,22 +1,14 @@
 .uk-navbar-nav > li > a , .uk-navbar-nav > li > a:focus, .uk-navbar-nav > li > a:active{
   color: #232323;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 300;
   letter-spacing:  0.5px;
+  font-family: Tahoma, sans-serif !important;
 }
 
 .uk-navbar-nav > li > a:hover {
   color: black;
 }
-
-/*.uk-navbar-dropdown-nav > li > a, .uk-navbar-dropdown-nav > li > a:focus, .uk-navbar-dropdown-nav > li > a:active {*/
-  /*color: #0047BA;*/
-  /*font-size: 16px;*/
-/*}*/
-
-/*.uk-navbar-dropdown-nav > li > a:hover {*/
-  /*color: #D1303A;*/
-/*}*/
 
 .signUp {
   border: 1px solid #0047BA;
@@ -60,6 +52,7 @@ a.signUp, a:hover.signUp {
 }
 
 .uk-navbar-dropdown-nav > li > a {
- color: black;
+  color: black;
   font-size: 14px;
+  font-family: Tahoma, sans-serif !important;
 }

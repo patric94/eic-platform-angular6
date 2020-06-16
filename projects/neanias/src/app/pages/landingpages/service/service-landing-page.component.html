@@ -85,8 +85,15 @@
 
 
           <div class="serviceDescription" *ngIf="richService.service.description">
+            <div  class="uk-card uk-card-body uk-card-basic-info uk-margin-bottom uk-first-column"><!-- maybe delete-->
+              <div class="uk-width-1-1@m uk-first-column section-heading">
+              <h4 class="uk-margin-medium uk-text-center"><!-- maybe delete-->
+                <span class="">Service description</span><!-- maybe delete-->
+              </h4><!-- maybe delete-->
+              </div><!-- maybe delete--><!-- maybe delete-->
             <p [innerHTML]="richService.service.description">
             </p>
+            </div><!-- maybe delete-->
           </div>
 
           <div class="tags" *ngIf="richService.service.tags && richService.service.tags.length>0">

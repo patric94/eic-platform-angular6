@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import {SlideshowModule} from 'ng-simple-slideshow';
 import { AppRoutingModule } from './app-routing.module';
 import { neaniasAppComponent } from './neanias-app.component';
 import {AppModule} from '../../../../src/app/app.module';
@@ -56,6 +56,7 @@ import {CommonModule} from '@angular/common';
     ChartModule,
     CookieLawModule,
     CKEditorModule,
+    SlideshowModule
   ],
   providers: [],
   bootstrap: [neaniasAppComponent]

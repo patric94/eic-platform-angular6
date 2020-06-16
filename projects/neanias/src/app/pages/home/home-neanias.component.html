@@ -1,3 +1,24 @@
+
+
+<!-- Almost working carousel <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>-->
+
+<!--    <ul class="uk-slideshow-items">-->
+<!--      <li>-->
+<!--        <img data-src="../../../../../assets/images/original.png"width="1800" height="1200" alt="" uk-img="target: !ul > :last-child, !* +*">-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <img data-src="../../../../../assets/images/wallpaper.png" width="1800" height="1200" alt="" uk-cover uk-img="target: !* -*, !* +*">-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <img data-src="../../../../../assets/images/scan.gif" width="1800" height="1200" alt="" uk-cover uk-img="target: !* -*, !ul > :first-child">-->
+<!--      </li>-->
+<!--    </ul>-->
+
+<!--    <a class="uk-position-center-left uk-position-small uk-hidden-hover"  href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>-->
+<!--    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>-->
+
+<!--</div>-->
+
 <!-- <div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 95px;"></div>
 <div class="uk-section-secondary uk-position-relative"
      uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
@@ -38,13 +59,20 @@
 </div> -->
 
 
+
+
+
 <div class="tm-header-placeholder uk-margin-remove-adjacent" style="height: 95px;"></div>
+
 <div class="uk-section-secondary uk-position-relative"
      uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
   <div
-    style="background-image:url(../../../../../assets/images/original.png); background-color: rgb(255, 255, 255); box-sizing: border-box; min-height: calc(100vh - 229.5px);"
+    style="background-image:url(../../../../../assets/images/background.jpg); background-color: rgb(255, 255, 255); box-sizing: border-box; min-height: calc(100vh - 229.5px);"
     class="uk-background-norepeat uk-background-cover uk-background-fixed uk-section uk-padding-remove-bottom uk-flex uk-flex-middle"
     uk-height-viewport="offset-top: true;offset-bottom: 20">
+
+
+
     <div class="uk-position-cover" style="background-color: rgba(31, 55, 97, 0.53);"></div>
     <div class="uk-width-1-1">
       <div class="uk-position-relative">
@@ -278,7 +306,7 @@
 
   <div class="uk-section-muted uk-section-overlap uk-position-relative"
        uk-scrollspy="{&quot;target&quot;:&quot;[uk-scrollspy-class]&quot;,&quot;cls&quot;:&quot;uk-animation-fade&quot;,&quot;delay&quot;:false}">
-    <div style="background-image: url(../../../../../assets/images/original.png);"
+    <div style="background-image: url(../../../../../assets/images/background.jpg);"
          class="uk-background-norepeat uk-background-cover uk-background-center-center uk-background-fixed uk-section uk-section-medium">
       <div class="uk-position-cover" style="background-color: rgba(31, 55, 97, 0.53);"></div>
       <div class="uk-container uk-container-large uk-position-relative">
@@ -303,12 +331,13 @@
               <div class="">
                 <div class="uk-text-right">
                   <a class="uk-flex-right uk-margin-small-right" target="_blank"
-                     href="https://www.neanias.eu/">Read all
+                     href="https://www.neanias.eu/">Read more
 
                   </a>
                 </div>
               </div>
             </div>
+            <!-- made add a break  -->
             <div class="registerService personas">
               <h3>
                 I would like to register a service
@@ -319,29 +348,27 @@
 
               </div>
             </div>
+            <!-- made add a break  -->
+          <div class="uk-text-left">
 
-          </div>
+<!--            <div class="needService personas">-->
+<!--              <h3>-->
+<!--                I need a service to-->
+<!--              </h3>-->
+<!--              <div class="uk-margin-small-bottom">-->
+<!--                <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'networking,compute,security'}]">Use-->
+<!--                  network, computing and security resources</a>-->
 
-
-          <div class="uk-width-2-5@m uk-padding-remove-left">
-            <div class="needService personas">
-              <h3>
-                I need a service to
-              </h3>
-              <div class="uk-margin-small-bottom">
-                <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'networking,compute,security'}]">Use
-                  network, computing and security resources</a>
-
-              </div>
-              <div class="uk-margin-small-bottom">
-                <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'storage,data,aggregator'}]">Store,
-                  share and analyze data</a>
-              </div>
-              <div class="uk-margin-small-bottom">
-                <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'software,aggregator'}]">Use and
-                  share software</a>
-              </div>
-            </div>
+<!--              </div>-->
+<!--              <div class="uk-margin-small-bottom">-->
+<!--                <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'storage,data,aggregator'}]">Store,-->
+<!--                  share and analyze data</a>-->
+<!--              </div>-->
+<!--              <div class="uk-margin-small-bottom">-->
+<!--                <a class="uk-margin-small-right" [routerLink]="['/search', {category : 'software,aggregator'}]">Use and-->
+<!--                  share software</a>-->
+<!--              </div>-->
+<!--            </div>-->
             <div class="research personas">
               <h3>
                 I need a service to
@@ -356,9 +383,18 @@
                   share and analyze data</a>
               </div>
             </div>
-          </div>
+          </div><!-- here -->
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
+
+<!--<slideshow [height]="'350px'"-->
+<!--           [autoPlay]="true"-->
+<!--           [showArrows]="true"-->
+<!--           [imageUrls]="imageUrlArray">-->
+<!--  [lazyLoad]="imageSources?.length > 1"-->
+<!--  [autoPlayWaitForLazyLoad]="true">-->
+<!--</slideshow>-->

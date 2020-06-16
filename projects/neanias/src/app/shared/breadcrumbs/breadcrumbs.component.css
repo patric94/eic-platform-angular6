@@ -8,7 +8,10 @@
     font-size: 13px;
     margin: 0;
 }
-
+img{
+  height: 35px;
+  width:  35px;
+}
 .element-invisible {
     position: absolute !important;
     clip: rect(1px 1px 1px 1px);
@@ -99,7 +102,8 @@ h1 {
   /*margin-right: 20px;*/
   width: 300px;
   border-bottom: none;
-  font-size: 16px;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
   padding: 0 15px;
   background: rgb(255,255,255) ; /*url("../../../assets/images/icons/ic_search.svg") no-repeat right;*/
   background-origin: content-box;
